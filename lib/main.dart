@@ -44,10 +44,11 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             )),
@@ -62,7 +63,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
         elevation: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         primary: true,
@@ -120,21 +121,24 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                   onPressed: () => _onNumberPressed('$i'),
                 ),
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.face,
-                  ),
-                  iconSize: 46),
+                onPressed: () {},
+                icon: const  Icon(
+                  Icons.fingerprint,
+                ),
+                iconSize: 46,
+                color: Colors.green,
+              ),
               NumberButton(
                 number: '0',
                 onPressed: () => _onNumberPressed('0'),
               ),
               IconButton(
-                  onPressed: _onDeletePressed,
-                  icon: const Icon(
-                    Icons.backspace_rounded,
-                  ),
-                  iconSize: 36),
+                onPressed: _onDeletePressed,
+                icon: const Icon(
+                  Icons.backspace_outlined,
+                ),
+                iconSize: 36,
+              ),
             ],
           ),
         ],
@@ -143,43 +147,57 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   }
 }
 
-class NumberButton extends StatelessWidget {
+class NumberButton extends StatefulWidget {
   final String number;
   final VoidCallback onPressed;
 
   const NumberButton({
-    super.key,
+    Key? key,
     required this.number,
     required this.onPressed,
-  });
+  }) : super(key: key);
+
+  @override
+  _NumberButtonState createState() => _NumberButtonState();
+}
+
+class _NumberButtonState extends State<NumberButton> {
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() {
+          isPressed = true;
+        });
+        widget.onPressed();
+      },
+      onTapUp: (_) {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          isPressed = false;
+        });
+      },
       child: Container(
-        margin: const EdgeInsets.all(10),
-        width: 60,
-        height: 60,
+        margin: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.grey.shade300,
+          color: isPressed ? Colors.green : Colors.grey.shade300,
         ),
         child: Center(
-          child: number == 'faceid'
-              ? const Icon(
-                  Icons.face,
-                  size: 24,
-                  color: Colors.white,
-                )
-              : Text(
-                  number,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+          child: Text(
+            widget.number,
+            style: const TextStyle(
+              fontSize: 32,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       ),
     );
