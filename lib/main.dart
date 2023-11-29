@@ -222,38 +222,48 @@ class _PinSetupPageState extends State<PinSetupPage>
                 ),
               )
             else
-              const SizedBox(height: 20),
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              const SizedBox(
+                height: 20,
+              ),
+            Column(
               children: [
-                for (int i = 1; i <= 9; i++)
-                  NumberButton(
-                    number: '$i',
-                    onPressed: () => _onNumberPressed('$i'),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (int i = 1; i <= 9; i++)
+                        NumberButton(
+                          number: '$i',
+                          onPressed: () => _onNumberPressed('$i'),
+                        ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.fingerprint,
+                        ),
+                        iconSize: 46,
+                        color: Colors.green,
+                      ),
+                      NumberButton(
+                        number: '0',
+                        onPressed: () => _onNumberPressed('0'),
+                      ),
+                      IconButton(
+                        onPressed: _onDeletePressed,
+                        icon: const Icon(
+                          Icons.backspace_outlined,
+                        ),
+                        iconSize: 36,
+                      ),
+                    ],
                   ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.fingerprint,
-                  ),
-                  iconSize: 46,
-                  color: Colors.green,
-                ),
-                NumberButton(
-                  number: '0',
-                  onPressed: () => _onNumberPressed('0'),
-                ),
-                IconButton(
-                  onPressed: _onDeletePressed,
-                  icon: const Icon(
-                    Icons.backspace_outlined,
-                  ),
-                  iconSize: 36,
                 ),
               ],
             ),
+            const SizedBox(height: 5)
           ],
         ),
       ),
@@ -298,10 +308,10 @@ class _NumberButtonState extends State<NumberButton> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.all(12),
+        margin: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isPressed ? Colors.green : Colors.grey.shade300,
+          color: isPressed ? Colors.green.shade400 : Colors.grey.shade300,
         ),
         child: Center(
           child: Text(
