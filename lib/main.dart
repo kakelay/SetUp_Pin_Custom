@@ -94,7 +94,13 @@ class _PinSetupPageState extends State<PinSetupPage>
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const JotParkPage()),
-    );
+    ).then((value) {
+      // This code will run when the JotParkPage is popped and the user returns to this page
+      // Reset the pin when returning from the JotParkPage
+      setState(() {
+        pin = '';
+      });
+    });
   }
 
   void _lockAccount() {
