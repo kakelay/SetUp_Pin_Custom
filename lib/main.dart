@@ -134,7 +134,7 @@ class _PinSetupPageState extends State<PinSetupPage>
           ),
         ),
         title: const Text(
-          'PIN Setup',
+          'Setup PIN',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -147,10 +147,11 @@ class _PinSetupPageState extends State<PinSetupPage>
             TextButton(onPressed: () {}, child: const Text('reset password'))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(26.0),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const Column(
               children: [
@@ -163,9 +164,7 @@ class _PinSetupPageState extends State<PinSetupPage>
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 8,
-                ),
+                SizedBox(height: 8),
                 Text(
                   'A simple step to improve security and convenience when you’re using offline check-out.',
                   style: TextStyle(
@@ -176,6 +175,7 @@ class _PinSetupPageState extends State<PinSetupPage>
                 ),
               ],
             ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -209,47 +209,48 @@ class _PinSetupPageState extends State<PinSetupPage>
               ],
             ),
             if (isLocked)
-              const Text(
-                'Try again in 1 minute',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(
+                height: 20,
+                child: Text(
+                  'Try again in 1 minute',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            Column(
+              )
+            else
+              const SizedBox(height: 20),
+            GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    for (int i = 1; i <= 9; i++)
-                      NumberButton(
-                        number: '$i',
-                        onPressed: () => _onNumberPressed('$i'),
-                      ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.fingerprint,
-                      ),
-                      iconSize: 46,
-                      color: Colors.green,
-                    ),
-                    NumberButton(
-                      number: '0',
-                      onPressed: () => _onNumberPressed('0'),
-                    ),
-                    IconButton(
-                      onPressed: _onDeletePressed,
-                      icon: const Icon(
-                        Icons.backspace_outlined,
-                      ),
-                      iconSize: 36,
-                    ),
-                  ],
+                for (int i = 1; i <= 9; i++)
+                  NumberButton(
+                    number: '$i',
+                    onPressed: () => _onNumberPressed('$i'),
+                  ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.fingerprint,
+                  ),
+                  iconSize: 46,
+                  color: Colors.green,
+                ),
+                NumberButton(
+                  number: '0',
+                  onPressed: () => _onNumberPressed('0'),
+                ),
+                IconButton(
+                  onPressed: _onDeletePressed,
+                  icon: const Icon(
+                    Icons.backspace_outlined,
+                  ),
+                  iconSize: 36,
                 ),
               ],
             ),
