@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:setup_custom/views/jotpark.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PinSetupPageView extends StatefulWidget {
+  const PinSetupPageView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PinSetupPage(),
-    );
-  }
+  _PinSetupPageViewState createState() => _PinSetupPageViewState();
 }
 
-class PinSetupPage extends StatefulWidget {
-  const PinSetupPage({super.key});
-
-  @override
-  _PinSetupPageState createState() => _PinSetupPageState();
-}
-
-class _PinSetupPageState extends State<PinSetupPage>
+class _PinSetupPageViewState extends State<PinSetupPageView>
     with SingleTickerProviderStateMixin {
   String pin = '';
   int attempts = 0;
@@ -131,7 +118,6 @@ class _PinSetupPageState extends State<PinSetupPage>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
         title: const Text(
           'Setup PIN',
           style: TextStyle(
@@ -143,28 +129,7 @@ class _PinSetupPageState extends State<PinSetupPage>
         elevation: 0,
         actions: [
           if (isLocked)
-            TextButton(
-              onPressed: () {},
-              child: const Text('reset password'),
-            ),
-          if (!isLocked)
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const JotParkPage()),
-                ).then((value) {
-                  // This code will run when the JotParkPage is popped and the user returns to this page
-                  // Reset the pin when returning from the JotParkPage
-                  setState(() {
-                    pin = '';
-                  });
-                });
-              },
-              child: Text(
-                'Enable Login',
-              ),
-            )
+            TextButton(onPressed: () {}, child: const Text('reset password'))
         ],
       ),
       body: Container(
